@@ -2,7 +2,7 @@
 
 A simple way to display your step-by-step development process for users. Inspired by [Facepunch's](https://commits.facepunch.com).
 
-Live preview
+[Live preview](https://git-commit-viewer.vercel.app/)
 
 ## Getting Started
 
