@@ -1,0 +1,40 @@
+@import "variables";
+
+.label {
+    background: linear-gradient($label_defaultRotationValue, #0000 $label_startPercentage, $label_defaultColor $label_middlePercentage, #0000 $label_endPercentage);
+    width: 100%;
+    margin: 0 auto;
+    padding: 2vh;
+    color: $white1;
+    text-align: center;
+    // flex: 1;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // flex-direction: column;
+
+    &.warning {
+        background: linear-gradient($label_defaultRotationValue, #0000 $label_startPercentage, $label_warningColor $label_middlePercentage, #0000 $label_endPercentage);
+    }
+    &.error {
+        background: linear-gradient($label_defaultRotationValue, #0000 $label_startPercentage, $label_errorColor $label_middlePercentage, #0000 $label_endPercentage);
+    }
+
+    .icon {
+        margin-right: 2vh;
+        i {
+            font-size: 2em;
+        }
+    }
+
+    .info {
+        width: 100%;
+        font-size: 1em;
+
+        p {
+            margin: 0;
+            line-height: 125%;
+        }
+    }
+}
+

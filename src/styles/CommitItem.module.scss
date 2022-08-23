@@ -1,0 +1,113 @@
+@import "variables";
+
+.commit {
+    margin: 0 auto;
+    min-width: 35%;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    font-family: Inter, $fallbackFontStack;
+    border-bottom: 1px dashed $black2;
+    transition: 0.2s;
+
+    .authorInfo {
+        margin: 3vh;
+        width: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        img {
+            width: inherit;
+            border-radius: 1vh;
+        }
+
+        .handle {
+            margin: 0.5vh 0;
+            font-size: 0.8em;
+        }
+
+        .date {
+            font-size: 0.5em;
+        }
+    }
+
+    .commitInfo {
+        width: 100%;
+        margin: 3vh 3vh 3vh 0;
+        word-break: break-all;
+
+        .repoBranchSha {
+            margin: 0 0 2vh 0;
+            font-size: 1.35em;
+            font-weight: 500;
+            line-height: 110%;
+
+            .sha {
+                font-weight: 800;
+            }
+        }
+
+        .message {
+            margin: 0;
+            font-size: 0.85em;
+            line-height: 125%;
+            font-weight: 300;
+            white-space: pre-wrap;
+
+            p {
+                margin: 0;
+            }
+
+            ul {
+                padding-left: 2em;
+            }
+        }
+    }
+
+    &:last-child {
+        border-bottom: 0;
+    }
+}
+
+#commitFull {
+    @extend .commit;
+    margin: 5vh auto;
+    min-width: 50%;
+    width: 70%;
+    border-bottom: 0;
+
+    .authorInfo {
+        width: 110px;
+
+        .handle {
+            margin: 1vh 0;
+            font-size: 1em;
+        }
+
+        .date {
+            font-size: 0.7em;
+        }
+    }
+
+    .commitInfo {
+        word-break: break-all;
+
+        .repoBranchSha {
+            font-size: 2.1em;
+        }
+
+        .message {
+            font-size: 1.1em;
+            line-height: 125%;
+        }
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    .commit, .commitFull {
+        width: 100%;
+    }
+}

@@ -1,0 +1,140 @@
+@import "variables";
+
+// @media (prefers-color-scheme: dark) {
+// @media (prefers-color-scheme: light) {
+//     html {
+//         color-scheme: light;
+//     }
+//     body {
+//         background-color: $white1 !important;
+//         color: $black1 !important;
+//     }
+//     header, footer {
+//         background-color: $white2 !important;
+//     }
+// }
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+}
+
+body {
+    background-color: $black1;
+    color: $white1;
+    width: 100%;
+    height: 100%;
+    font-family: Roboto, $fallbackFontStack;
+}
+
+#__next {
+    width: inherit;
+    height: inherit;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blur {
+    filter: blur($defaultCommitBlur);
+    // filter: blur(1px);
+    pointer-events: none;
+    user-select: none;
+}
+
+#main {
+    margin: 0 auto;
+    width: 100%;
+    max-width: $defaultMaxWidth;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#error-page {
+    min-height: 100vh;
+    font-family: Inter, $fallbackFontStack;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+        margin: 0;
+        font-size: 25vw;
+        font-weight: 300;
+    }
+}
+
+code {
+	background-color: $black;
+	margin: 1vh 0;
+	padding: 0.8em;
+	font-family: Roboto Mono, $fallbackFontStack;
+    font-size: 1.1em;
+	color: #FFF;
+	display: block;
+	line-height: 150%;
+	white-space: pre-wrap;
+	border-radius: 1vh;
+}
+
+a {
+    color: $linkColor;
+    text-decoration: none;
+    transition: 0.2s;
+
+    &:hover {
+        color: $linkColorHover;
+    }
+}
+
+header, footer {
+    background-color: $black;
+    width: 100%;
+    padding: 5vh 0;
+    flex-direction: column;
+    font-family: Sora, $fallbackFontStack;
+
+    img {
+        width: 500px;
+        height: 100px;
+        max-height: 100px;
+        object-fit: contain;
+    }
+
+    h1 {
+        margin: 0;
+        color: $white1;
+        font-size: 3.5em;
+        font-weight: 700;
+        line-height: 100%;
+        word-break: break-word;
+        text-align: center;
+    }
+
+    h6 {
+        margin: 0;
+        color: $white1;
+        font-size: 1.1em;
+        font-weight: 200;
+        line-height: 100%;
+        word-break: break-word;
+        text-align: center;
+    }
+}
+
+#repository-name {
+    margin: 5vh auto;
+    width: 100%;
+    text-align: center;
+    font-family: Inter, $fallbackFontStack;
+}

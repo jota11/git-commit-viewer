@@ -1,0 +1,28 @@
+// @import "bootstrap/scss/bootstrap";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+// @import "bootstrap/scss/root";
+// @import "bootstrap/scss/reboot";
+
+$black: #000;
+$black1: #111;
+$black2: #222;
+$white: #FFF;
+$white1: #EEE;
+$white2: #DDD;
+$linkColor: #6363FF;
+$linkColorHover: #3636FF;
+
+$label_defaultRotationValue: 90deg;
+$label_startPercentage: 0%;
+$label_middlePercentage: 50%;
+$label_endPercentage: 100%;
+$label_defaultColor: #5555CC99;
+$label_warningColor: #CCCC5599;
+$label_errorColor: #CC555599;
+
+$defaultCommitBlur: 8px;
+$defaultMaxWidth: 1600px;
+
+$fallbackFontStack: Arial, Helvetica, sans-serif;
