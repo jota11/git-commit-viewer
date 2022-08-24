@@ -18,9 +18,7 @@ export class GlobalCalls {
     * Returns all commits from the repositories specified in the config file.
     * @returns array of commits
     */
-    public static async getCommits() {
-        // let commitsArray = [""];
-        // commitsArray.shift();
+    public static async getCommits(): Promise<ICommitData[]> {
         let commitsArray: ICommitData[] = [];
         for (let i = 0; i < this.repositories.length; i++) {
             switch (this.repositories[i].provider) {
@@ -43,9 +41,7 @@ export class GlobalCalls {
     * @param {string} slug
     * @returns array of commits
     */
-    public static async getCommitsFromSpecificRepo(slug: string) {
-        // let commitsArray = [""];
-        // commitsArray.shift();
+    public static async getCommitsFromSpecificRepo(slug: string): Promise<ICommitData[]> {
         let commitsArray: ICommitData[] = [];
         let repository!: IConfigRepo;
         let doesThisRepoActuallyExists = false;
@@ -68,8 +64,6 @@ export class GlobalCalls {
                     console.log("Provider not supported.");
                     break;
             }
-        } else {
-            return;
         }
         return this.sortArrayChronologically(commitsArray);
     }
@@ -80,7 +74,7 @@ export class GlobalCalls {
     * @param {string} sha
     * @returns commit
     */
-    public static async getCommit(repo: string, sha: string) {
+    public static async getCommit(repo: string, sha: string): Promise<ICommitData> {
         let commitInfo!: ICommitData;
 
         let repository!: IConfigRepo;
@@ -104,8 +98,6 @@ export class GlobalCalls {
                     console.log("Provider not supported.");
                     break;
             }
-        } else {
-            return;
         }
         return commitInfo;
     }

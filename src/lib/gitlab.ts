@@ -1,4 +1,4 @@
-import { global_APIURLs, apikeyGitlab, commitConfigs } from "config";
+import { global_APIURLs, commitConfigs } from "config";
 import { ICommitData } from "types";
 
 export class Gitlab {
@@ -7,7 +7,7 @@ export class Gitlab {
     ];
     private static headers_gitlabRequestAuth = [
         ["Content-Type", "application/json"],
-        ["PRIVATE-TOKEN", `${apikeyGitlab}`]
+        ["PRIVATE-TOKEN", `${process.env.APIKEY_GITLAB}`]
     ];
 
     private static hideInfo(message: string): boolean {
@@ -30,7 +30,7 @@ export class Gitlab {
     private static async getAvatarOfCommitsAuthor(email: string): Promise<string> {
         let avatarUrl = "";
         await fetch(global_APIURLs.gitlab + "/avatar?email=" + email + "&size=128")
-        .then(res => res.json())
+        .then(res => { if (res.status == 200) return res.json() })
         .then(data => avatarUrl = data.avatar_url)
         .catch(error => console.error("Avatar error! " + error));
         return avatarUrl;
@@ -43,7 +43,7 @@ export class Gitlab {
             await fetch(global_APIURLs.gitlab + "projects/" + urlL + "/repository/commits", {
                 headers: new Headers(this.headers_gitlabRequestAuth),
             })
-            .then(res => res.json())
+            .then(res => { if (res.status == 200) return res.json() })
             .then(data => {
                 data.map((data: any) => {
                     let obj: ICommitData;
@@ -83,7 +83,7 @@ export class Gitlab {
             await fetch(global_APIURLs.gitlab + "projects/" + urlL + "/repository/commits", {
                 headers: new Headers(this.headers_gitlabRequest)
             })
-            .then(res => res.json())
+            .then(res => { if (res.status == 200) return res.json() })
             .then(data => {
                 data.map(async (data: any) => {
                     let obj: ICommitData;
@@ -131,7 +131,7 @@ export class Gitlab {
             await fetch(global_APIURLs.gitlab + "projects/" + urlL + "/repository/commits/" + sha, {
                 headers: new Headers(this.headers_gitlabRequestAuth)
             })
-            .then(res => res.json())
+            .then(res => { if (res.status == 200) return res.json() })
             .then(async data => {
                 let obj: ICommitData;
                 let avatar = await this.getAvatarOfCommitsAuthor(data.author_email);
@@ -170,7 +170,7 @@ export class Gitlab {
             await fetch(global_APIURLs.gitlab + "projects/" + urlL + "/repository/commits/" + sha, {
                 headers: new Headers(this.headers_gitlabRequest)
             })
-            .then(res => res.json())
+            .then(res => { if (res.status == 200) return res.json() })
             .then(async data => {
                 let obj: ICommitData;
                 let avatar = await this.getAvatarOfCommitsAuthor(data.author_email);

@@ -1,8 +1,3 @@
-// In order to be able to track private repositories.
-// If you are not tracking any private repositories, leave it untouched.
-export const apikeyGithub = process.env.APIKEY_GITHUB;
-export const apikeyGitlab = process.env.APIKEY_GITLAB;
-
 // Here you can customize the page to your liking.
 // They should be pretty much self-explanatory.
 export const globalConfigs = {
@@ -76,4 +71,4 @@ export const global_APIURLs = {
     github: "https://api.github.com/repos/",
     gitlab: "https://gitlab.com/api/v4/",
 }
-export const revalidateTime = 300;
+export const revalidateTime = 180;

@@ -40,8 +40,8 @@ export async function getStaticProps() {
     return {
         props: {
             commits: res
-        }
-        // revalidate: revalidateTime
+        },
+        revalidate: revalidateTime
     }
 }
 

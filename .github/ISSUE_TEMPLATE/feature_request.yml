@@ -1,0 +1,50 @@
+name: Feature request
+title: "[feature] <title>"
+description: Suggest an idea
+labels: [feature]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Make sure to keep the name of your feature request short and descriptive.
+        In-depth details should not go in the title.
+        Please make sure to fill every field correctly.
+
+  - type: checkboxes
+    id: feature-prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please verify and check the options below.
+      options:
+        - label: This is not a bug report.
+          required: true
+        - label: I checked recent issues and verified that this is not a duplicate.
+          required: true
+        - label: I verified that this feature does not yet exist.
+          required: true
+
+  - type: dropdown
+    id: feature-existing-problem
+    attributes:
+      label: Is this feature request related to an existing problem?
+      options:
+        - Yes
+        - No
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Describe how you would like the feature.
+      description: A clear and coherent description of what you want this feature to do/work.
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-extra-information
+    attributes:
+      label: Extra information (optional)
+      description: Any extra information should go here.
+    validations:
+      required: false

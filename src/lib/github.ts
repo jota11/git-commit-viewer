@@ -1,13 +1,14 @@
-import { global_APIURLs, apikeyGithub, commitConfigs } from "config";
+import { global_APIURLs, commitConfigs } from "config";
 import { ICommitData } from "types";
 
 export class Github {
-    private static headers_githubRequest = [
-        ["Accept", "application/vnd.github+json"],
-    ];
+    // Remove?
+    // private static headers_githubRequest = [
+    //     ["Accept", "application/vnd.github+json"],
+    // ];
     private static headers_githubRequestAuth = [
         ["Accept", "application/vnd.github+json"],
-        ["Authorization", `token ${apikeyGithub}`]
+        ["Authorization", `token ${process.env.APIKEY_GITHUB}`]
     ];
 
     private static hideInfo(message: string): boolean {
@@ -29,7 +30,7 @@ export class Github {
             await fetch(global_APIURLs.github + urlL + "/commits", {
                 headers: new Headers(this.headers_githubRequestAuth)
             })
-            .then(res => res.json())
+            .then(res => { if (res.status == 200) return res.json() })
             .then(data => {
                 data.map((data: any) => {
                     let obj: ICommitData;
@@ -68,9 +69,9 @@ export class Github {
             }).catch(error => console.error("Error getting private Github commits! " + error));
         } else {
             await fetch(global_APIURLs.github + urlL + "/commits", {
-                headers: new Headers(this.headers_githubRequest)
+                headers: new Headers(this.headers_githubRequestAuth)
             })
-            .then(res => res.json())
+            .then(res => { if (res.status == 200) return res.json() })
             .then(data => {
                 data.map((data: any) => {
                     let obj: ICommitData;
@@ -117,7 +118,7 @@ export class Github {
             await fetch(global_APIURLs.github + urlL + "/commits/" + sha, {
                 headers: new Headers(this.headers_githubRequestAuth)
             })
-            .then(res => res.json())
+            .then(res => { if (res.status == 200) return res.json() })
             .then(data => {
                 let obj: ICommitData;
                 if (this.hideInfo(data.commit.message)) {
@@ -153,11 +154,11 @@ export class Github {
             }).catch(error => console.error("Error getting private Github commit! " + error));
         } else {
             await fetch(global_APIURLs.github + urlL + "/commits/" + sha, {
-                headers: new Headers(this.headers_githubRequest)
+                headers: new Headers(this.headers_githubRequestAuth)
             })
-            .then(res => res.json())
+            .then(res => { if (res.status == 200) return res.json() })
             .then(data => {
-                let obj: ICommitData
+                let obj: ICommitData;
                 if (this.hideInfo(data.commit.message)) {
                     obj = {
                         sha: commitConfigs.hiddenCommit_sha,
