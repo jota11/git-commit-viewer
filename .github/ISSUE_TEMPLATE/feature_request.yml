@@ -28,8 +28,8 @@ body:
     attributes:
       label: Is this feature request related to an existing problem?
       options:
-        - Yes
-        - No
+        - "Yes"
+        - "No"
     validations:
       required: true
 
