@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
             <footer className="center">
                 <Link href="/">
                     <a>
-                        <h6 style={{ color: configSetColor }}>{globalConfigs.name} and some more text</h6>
+                        <h6 style={{ color: configSetColor }}>{globalConfigs.name} Commits and some more text</h6>
                     </a>
                 </Link>
             </footer>

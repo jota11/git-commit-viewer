@@ -11,7 +11,7 @@ const Header: React.FC = () => {
                 <section>
                     <Link href="/">
                         <a>
-                            <h1 style={{ color: configSetColor }}>{globalConfigs.name}</h1>
+                            <h1 style={{ color: configSetColor }}>{globalConfigs.name} Commits</h1>
                         </a>
                     </Link>
                 </section>

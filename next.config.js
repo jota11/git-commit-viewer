@@ -17,6 +17,11 @@ const nextConfig = {
         source: "/r",
         destination: "/",
         permanent: false
+      },
+      {
+        source: "/statistics",
+        destination: "/stats",
+        permanent: false
       }
     ]
   }

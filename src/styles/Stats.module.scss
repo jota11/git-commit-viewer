@@ -1,0 +1,23 @@
+@import "variables";
+
+.repositoryStats {
+    background-color: $black2;
+    margin: 0 auto;
+    width: 100%;
+    padding: 3vh 0;
+
+    h2 {
+        margin: 0 auto 1vh;
+        text-align: center;
+        font-family: Sora, $fallbackFontStack;
+        font-size: 2em;
+        line-height: 100%;
+    }
+
+    .stat {
+        margin: 0 auto;
+        text-align: center;
+        font-family: Inter, $fallbackFontStack;
+        font-size: 1.1em;
+    }
+}

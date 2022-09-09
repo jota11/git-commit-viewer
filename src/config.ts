@@ -1,7 +1,7 @@
 // Here you can customize the page to your liking.
 // They should be pretty much self-explanatory.
 export const globalConfigs = {
-    name: "[INSERT TEXT HERE] Commits",
+    name: "[INSERT TEXT HERE]",
     nameColor: "#77777799",
     logo: "",
     dark_logo: "",
@@ -36,7 +36,7 @@ export const commitConfigs = {
     ],
     hiddenCommit_sha: "bffty",
     hiddenCommit_repositoryName: "repository-name",
-    hiddenCommit_branch: "branch",
+    hiddenCommit_branchName: "branch",
     hiddenCommit_message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     hiddenCommit_link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     hiddenCommit_date: "1970-01-01T00:00:00Z",
@@ -49,11 +49,11 @@ export const global_Repositories = [
         provider: "github",
         private: false
     },
-    {
-        url: "https://github.com/jota11/testing-repository-2",
-        provider: "github",
-        private: true
-    },
+    // {
+    //     url: "https://github.com/jota11/testing-repository-2",
+    //     provider: "github",
+    //     private: true
+    // },
     {
         url: "https://gitlab.com/jota11/test-gitlab-repository",
         provider: "gitlab",

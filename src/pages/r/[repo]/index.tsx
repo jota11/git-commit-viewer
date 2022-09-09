@@ -5,6 +5,7 @@ import { GlobalCalls } from "@lib/internals";
 import { ICommitData } from "types";
 import { globalConfigs, global_Repositories, revalidateTime } from "config";
 import CommitPreview from "@components/CommitPreview";
+import RepoStats from "@components/RepoStats";
 
 type Props = {
     repoCommits: ICommitData[];
@@ -13,14 +14,26 @@ type Props = {
 const RepoIndex: NextPage<Props> = ({ repoCommits }: Props) => {
     const router = useRouter();
     const { repo } = router.query;
+    const repositoryName = repo!.toString();
+
+    // ?
+    let commitsTodayNum = 0;
+    for (let i = 0; i < repoCommits.length; i++) {
+        const dateToday = new Date().toString().slice(0, 15);
+        const dateTodayCommits = new Date(repoCommits[i].date).toString().slice(0, 15);
+        if (dateToday == dateTodayCommits) commitsTodayNum++;
+    }
 
     return (
         <section id="main">
             <Head>
-                {/* <title>{globalConfigs.name} Commits — {repo}</title> */}
-                <title>{globalConfigs.name} Commits</title>
+                <title>{globalConfigs.name} Commits — {repo}</title>
             </Head>
-            <h2 id="repository-name">{repo}</h2>
+            <RepoStats
+                repoName={repositoryName}
+                repoTotalCommits={repoCommits.length}
+                repoTodayCommits={commitsTodayNum}
+            />
             {Array.isArray(repoCommits) ? repoCommits.map((data: ICommitData) => (
                 <CommitPreview
                     key={data.sha}
@@ -33,7 +46,7 @@ const RepoIndex: NextPage<Props> = ({ repoCommits }: Props) => {
                     date={data.date}
                     repositoryName={data.repository_name}
                     repositoryLink={"/r/" + data.repository_name}
-                    branch={"[BRANCH]"}
+                    branch={data.branch_name}
                     message={data.message}
                 />
             )) : <h1>Not an array!</h1>}

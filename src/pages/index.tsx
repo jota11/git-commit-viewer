@@ -27,7 +27,7 @@ const Home: NextPage<Props> = ({ commits }: Props) => {
                     date={data.date}
                     repositoryName={data.repository_name}
                     repositoryLink={"/r/" + data.repository_name}
-                    branch={"[BRANCH]"}
+                    branch={data.branch_name}
                     message={data.message}
                 />
             )) : <h1>Not an array!</h1>}

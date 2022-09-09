@@ -28,6 +28,7 @@ export interface ICommitData {
     title: string
     message: string
     repository_name: string
+    branch_name: string
     hidden: boolean
 }
 
@@ -35,6 +36,12 @@ export interface IConfigRepo {
     url: string
     provider: string
     private: boolean
+}
+
+export interface IStatsComponent {
+    repoName: string
+    repoTotalCommits: number
+    repoTodayCommits: number
 }
 
 export interface ILabel {

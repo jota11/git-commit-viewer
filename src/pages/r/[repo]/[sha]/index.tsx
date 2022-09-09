@@ -27,7 +27,7 @@ const RepoCommit: NextPage<Props> = ({ commit }: Props) => {
                     date={commit.date}
                     repositoryName={commit.repository_name}
                     repositoryLink={"/r/" + commit.repository_name}
-                    branch={"[BRANCH]"}
+                    branch={commit.branch_name}
                     message={commit.message}
                 />
             </section>
