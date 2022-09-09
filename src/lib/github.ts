@@ -146,82 +146,78 @@ export class Github {
             }).then(res => { if (res.status == 200) return res.json() })
             .catch(error => console.error("Error getting private Github commit! " + error));
 
-            commit.map(async (data: any) => {
-                let obj: ICommitData;
-                if (this.hideInfo(data.commit.message)) {
-                    obj = {
-                        sha: commitConfigs.hiddenCommit_sha,
-                        author: {
-                            avatar: data.author.avatar_url,
-                            name: data.commit.author.name,
-                            handle: data.author.login
-                        },
-                        date: data.commit.author.date,
-                        title: commitConfigs.hiddenCommit_message,
-                        message: commitConfigs.hiddenCommit_message,
-                        repository_name: commitConfigs.hiddenCommit_repositoryName,
-                        branch_name: commitConfigs.hiddenCommit_branchName,
-                        hidden: true
-                    }
-                } else {
-                    obj = {
-                        sha: data.sha,
-                        author: {
-                            avatar: data.author.avatar_url,
-                            name: data.commit.author.name,
-                            handle: data.author.login
-                        },
-                        date: data.commit.author.date,
-                        title: data.commit.message,
-                        message: data.commit.message,
-                        repository_name: data.html_url.split("/")[4],
-                        branch_name: "[branch]",
-                        hidden: false
-                    }
+            let obj: ICommitData;
+            if (this.hideInfo(commit.commit.message)) {
+                obj = {
+                    sha: commitConfigs.hiddenCommit_sha,
+                    author: {
+                        avatar: commit.author.avatar_url,
+                        name: commit.commit.author.name,
+                        handle: commit.author.login
+                    },
+                    date: commit.commit.author.date,
+                    title: commitConfigs.hiddenCommit_message,
+                    message: commitConfigs.hiddenCommit_message,
+                    repository_name: commitConfigs.hiddenCommit_repositoryName,
+                    branch_name: commitConfigs.hiddenCommit_branchName,
+                    hidden: true
                 }
-                githubCommit = obj;
-            });
+            } else {
+                obj = {
+                    sha: commit.sha,
+                    author: {
+                        avatar: commit.author.avatar_url,
+                        name: commit.commit.author.name,
+                        handle: commit.author.login
+                    },
+                    date: commit.commit.author.date,
+                    title: commit.commit.message,
+                    message: commit.commit.message,
+                    repository_name: commit.html_url.split("/")[4],
+                    branch_name: "[branch]",
+                    hidden: false
+                }
+            }
+            githubCommit = obj;
         } else {
             const commit = await fetch(urlL, {
                 headers: this.headers_githubRequestAuth
             }).then(res => { if (res.status == 200) return res.json() })
             .catch(error => console.error("Error getting Github commit! " + error));
 
-            commit.map(async (data: any) => {
-                let obj: ICommitData;
-                if (this.hideInfo(data.commit.message)) {
-                    obj = {
-                        sha: commitConfigs.hiddenCommit_sha,
-                        author: {
-                            avatar: data.author.avatar_url,
-                            name: data.commit.author.name,
-                            handle: data.author.login
-                        },
-                        date: data.commit.author.date,
-                        title: commitConfigs.hiddenCommit_message,
-                        message: commitConfigs.hiddenCommit_message,
-                        repository_name: commitConfigs.hiddenCommit_repositoryName,
-                        branch_name: commitConfigs.hiddenCommit_branchName,
-                        hidden: true
-                    }
-                } else {
-                    obj = {
-                        sha: data.sha,
-                        author: {
-                            avatar: data.author.avatar_url,
-                            name: data.commit.author.name,
-                            handle: data.author.login
-                        },
-                        date: data.commit.author.date,
-                        title: data.commit.message,
-                        message: data.commit.message,
-                        repository_name: data.html_url.split("/")[4],
-                        branch_name: "[branch]",
-                        hidden: false
-                    }
+            let obj: ICommitData;
+            if (this.hideInfo(commit.commit.message)) {
+                obj = {
+                    sha: commitConfigs.hiddenCommit_sha,
+                    author: {
+                        avatar: commit.author.avatar_url,
+                        name: commit.commit.author.name,
+                        handle: commit.author.login
+                    },
+                    date: commit.commit.author.date,
+                    title: commitConfigs.hiddenCommit_message,
+                    message: commitConfigs.hiddenCommit_message,
+                    repository_name: commitConfigs.hiddenCommit_repositoryName,
+                    branch_name: commitConfigs.hiddenCommit_branchName,
+                    hidden: true
                 }
-                githubCommit = obj;
-            });
+            } else {
+                obj = {
+                    sha: commit.sha,
+                    author: {
+                        avatar: commit.author.avatar_url,
+                        name: commit.commit.author.name,
+                        handle: commit.author.login
+                    },
+                    date: commit.commit.author.date,
+                    title: commit.commit.message,
+                    message: commit.commit.message,
+                    repository_name: commit.html_url.split("/")[4],
+                    branch_name: "[branch]",
+                    hidden: false
+                }
+            }
+            githubCommit = obj;
         }
         return githubCommit;
     }
