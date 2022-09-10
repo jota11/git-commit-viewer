@@ -20,6 +20,35 @@ export class Gitlab {
         return hide;
     }
 
+     private static makeCommitData(commit: any, branchName: string): ICommitData {
+        let obj: ICommitData;
+        obj = {
+            sha: commit.id,
+            author: {
+                avatar: avatar,
+                name: commit.author_name,
+                handle: commit.author_name
+            },
+            date: commit.created_at,
+            title: commit.title,
+            message: commit.message,
+            repository_name: commit.web_url.split("/")[4],
+            branch_name: branchName,
+            hidden: false
+        }
+
+        if (this.hideInfo(data.commit.message)) {
+            obj.sha = commitConfigs.hiddenCommit_sha,
+            obj.title = commitConfigs.hiddenCommit_message,
+            obj.message = commitConfigs.hiddenCommit_message,
+            obj.repository_name = commitConfigs.hiddenCommit_repositoryName,
+            obj.branch_name = commitConfigs.hiddenCommit_branchName,
+            obj.hidden = true
+        }
+
+        return obj
+    }
+
     /**
     * GitLab doesn't return the author's avatar in the commit
     * response, so we need to call a different endpoint.
@@ -69,99 +98,21 @@ export class Gitlab {
         let gitlabCommits: ICommitData[] = [];
         const repoNameId = url.slice(19).split("/").join("%2F");
         const urlL = global_APIURLs.gitlab + "projects/" + repoNameId + "/repository/commits?all=1";
-        if (isPrivate) {
-            await fetch(urlL, {
-                headers: this.headers_gitlabRequestAuth
-            })
-            .then(res => { if (res.status == 200) return res.json() })
-            .then(async commits => {
-                await Promise.all(commits.map(async (data: any) => {
-                    let obj: ICommitData;
-                    let avatar = await this.getAvatar(data.author_email);
-                    let branchName = await this.getBranch(urlL.slice(0, -6) + "/" + data.id, true);
+        await fetch(urlL, {
+            headers: this.headers_gitlabRequestAuth
+        })
+        .then(res => { console.log(res.status); if (res.status == 200) return res.json() })
+        .then(async commits => {
+            await Promise.all(commits.map(async (commit: any) => {
+                let avatar = await this.getAvatar(commit.author_email);
+                let branchName = await this.getBranch(urlL.slice(0, -6) + "/" + commit.id, true);
+                let obj: ICommitData = makeCommitData(commit, branchName)
 
-                    if (this.hideInfo(data.message)) {
-                        obj = {
-                            sha: commitConfigs.hiddenCommit_sha,
-                            author: {
-                                avatar: avatar,
-                                name: data.author_name,
-                                handle: data.author_name
-                            },
-                            date: data.created_at,
-                            title: commitConfigs.hiddenCommit_message,
-                            message: commitConfigs.hiddenCommit_message,
-                            repository_name: commitConfigs.hiddenCommit_repositoryName,
-                            branch_name: commitConfigs.hiddenCommit_branchName,
-                            hidden: true
-                        }
-                    } else {
-                        obj = {
-                            sha: data.id,
-                            author: {
-                                avatar: avatar,
-                                name: data.author_name,
-                                handle: data.author_name
-                            },
-                            date: data.created_at,
-                            title: data.title,
-                            message: data.message,
-                            repository_name: data.web_url.split("/")[4],
-                            branch_name: branchName,
-                            hidden: false
-                        }
-                    }
-                    gitlabCommits.push(obj);
-                }));
-            })
-            .catch(error => console.error("Error getting private Gitlab commits! " + error));
-        } else {
-            await fetch(urlL, {
-                headers: this.headers_gitlabRequest
-            })
-            .then(res => { if (res.status == 200) return res.json() })
-            .then(async commits => {
-                await Promise.all(commits.map(async (data: any) => {
-                    let obj: ICommitData;
-                    let avatar = await this.getAvatar(data.author_email);
-                    let branchName = await this.getBranch(urlL.slice(0, -6) + "/" + data.id, false);
+                gitlabCommits.push(obj);
+            }));
+        })
+        .catch(error => console.error("Error getting Gitlab commits! " + error));
 
-                    if (this.hideInfo(data.message)) {
-                        obj = {
-                            sha: commitConfigs.hiddenCommit_sha,
-                            author: {
-                                avatar: avatar,
-                                name: data.author_name,
-                                handle: data.author_name
-                            },
-                            date: data.created_at,
-                            title: commitConfigs.hiddenCommit_message,
-                            message: commitConfigs.hiddenCommit_message,
-                            repository_name: commitConfigs.hiddenCommit_repositoryName,
-                            branch_name: commitConfigs.hiddenCommit_branchName,
-                            hidden: true
-                        }
-                    } else {
-                        obj = {
-                            sha: data.id,
-                            author: {
-                                avatar: avatar,
-                                name: data.author_name,
-                                handle: data.author_name
-                            },
-                            date: data.created_at,
-                            title: data.title,
-                            message: data.message,
-                            repository_name: data.web_url.split("/")[4],
-                            branch_name: branchName,
-                            hidden: false
-                        }
-                    }
-                    gitlabCommits.push(obj);
-                }));
-            })
-            .catch(error => console.error("Error getting Gitlab commits! " + error));
-        }
         return gitlabCommits;
     }
 
@@ -175,96 +126,19 @@ export class Gitlab {
         let gitlabCommit!: ICommitData;
         const repoNameId = url.slice(19).split("/").join("%2F");
         const urlL = global_APIURLs.gitlab + "projects/" + repoNameId + "/repository/commits/" + sha;
-        if (isPrivate) {
-            await fetch(urlL, {
-                headers: this.headers_gitlabRequestAuth
-            })
-            .then(res => { if (res.status == 200) return res.json() })
-            .then(async commit => {
-                let obj: ICommitData;
-                let avatar = await this.getAvatar(commit.author_email);
-                let branchName = await this.getBranch(urlL, true);
+        await fetch(urlL, {
+            headers: this.headers_gitlabRequestAuth
+        })
+        .then(res => { if (res.status == 200) return res.json() })
+        .then(async commit => {
+            let avatar = await this.getAvatar(commit.author_email);
+            let branchName = await this.getBranch(urlL, true);
+            let obj: ICommitData = makeCommitData(commit, branchName)
 
-                if (this.hideInfo(commit.message)) {
-                    obj = {
-                        sha: commitConfigs.hiddenCommit_sha,
-                        author: {
-                            avatar: avatar,
-                            name: commit.author_name,
-                            handle: commit.author_name
-                        },
-                        date: commit.created_at,
-                        title: commitConfigs.hiddenCommit_message,
-                        message: commitConfigs.hiddenCommit_message,
-                        repository_name: commitConfigs.hiddenCommit_repositoryName,
-                        branch_name: commitConfigs.hiddenCommit_branchName,
-                        hidden: true
-                    }
-                } else {
-                    obj = {
-                        sha: commit.id,
-                        author: {
-                            avatar: avatar,
-                            name: commit.author_name,
-                            handle: commit.author_name
-                        },
-                        date: commit.created_at,
-                        title: commit.title,
-                        message: commit.message,
-                        repository_name: commit.web_url.split("/")[4],
-                        branch_name: branchName,
-                        hidden: false
-                    }
-                }
-                gitlabCommit = obj;
-            })
-            .catch(error => console.error("Error getting private Gitlab commit! " + error));
+            gitlabCommit = obj;
+        })
+        .catch(error => console.error("Error getting Gitlab commit! " + error));
 
-        } else {
-            await fetch(urlL, {
-                headers: this.headers_gitlabRequest
-            })
-            .then(res => { if (res.status == 200) return res.json() })
-            .then(async commit => {
-                let obj: ICommitData;
-                let avatar = await this.getAvatar(commit.author_email);
-                let branchName = await this.getBranch(urlL, false);
-
-                if (this.hideInfo(commit.message)) {
-                    obj = {
-                        sha: commitConfigs.hiddenCommit_sha,
-                        author: {
-                            avatar: avatar,
-                            name: commit.author_name,
-                            handle: commit.author_name
-                        },
-                        date: commit.created_at,
-                        title: commitConfigs.hiddenCommit_message,
-                        message: commitConfigs.hiddenCommit_message,
-                        repository_name: commitConfigs.hiddenCommit_repositoryName,
-                        branch_name: commitConfigs.hiddenCommit_branchName,
-                        hidden: true
-                    }
-                } else {
-                    obj = {
-                        sha: commit.id,
-                        author: {
-                            avatar: avatar,
-                            name: commit.author_name,
-                            handle: commit.author_name
-                        },
-                        date: commit.created_at,
-                        title: commit.title,
-                        message: commit.message,
-                        repository_name: commit.web_url.split("/")[4],
-                        branch_name: branchName,
-                        hidden: false
-                    }
-                }
-                gitlabCommit = obj;
-            })
-            .catch(error => console.error("Error getting Gitlab commit! " + error));
-        }
         return gitlabCommit;
     }
 }

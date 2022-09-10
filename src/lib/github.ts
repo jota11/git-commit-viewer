@@ -11,7 +11,7 @@ export class Github {
         ["Accept", "application/vnd.github+json"],
         ["Authorization", `token ${process.env.APIKEY_GITHUB}`]
     ];
-
+    
     private static hideInfo(message: string): boolean {
         let hide = false;
         commitConfigs.prefix_hideCommit.map((prefix) => {
@@ -22,7 +22,16 @@ export class Github {
         return hide;
     }
 
-    public static async getBranches(url: string) {
+    /**
+    * TODO: Incomplete
+    *
+    * Returns a repo's branches, and the commits on those branches.
+    * Note that branches share identical commits. They are non-unique.
+    * 
+    * @param {string} url
+    */
+
+    public static async getBranches(url: string): Promise<IBranch[]> {
         const urlL = url.slice(19);
         let branches: IBranch[] = [];
         await fetch(global_APIURLs.github + urlL + "/branches", {
@@ -92,6 +101,8 @@ export class Github {
         return accumulator;
     }   
 
+
+    // would like to move to TS class eventually.
     private static makeCommitData(data: any, branches: string[]): ICommitData {
         let obj: ICommitData;
         obj = {
@@ -104,7 +115,7 @@ export class Github {
             date: data.commit.author.date,
             title: data.commit.message,
             message: data.commit.message,
-            branch: this.determineBranch(data.sha, branches),
+            branch_name: this.determineBranch(data.sha, branches),
             repository_name: data.html_url.split("/")[4],
             hidden: false
         }
@@ -112,15 +123,33 @@ export class Github {
         if (this.hideInfo(data.commit.message)) {
             obj.sha = commitConfigs.hiddenCommit_sha;
             obj.title = commitConfigs.hiddenCommit_message;
-            obj.message = commitCOnfigs.hiddenCommit_message;
-            obj.repository_name = commitCOnfigs.hiddenCommit_repositoryName;
+            obj.message = commitConfigs.hiddenCommit_message;
+            obj.branch_name = commitConfigs.hiddenCommit_branch;
+            obj.repository_name = commitConfigs.hiddenCommit_repositoryName;
             obj.hidden = true;
         }
 
         return obj
     }
 
-    public static async Github_getCommits(url: string, isPrivate: boolean): Promise<ICommitData[]> {
+    // /**
+    // * TODO: Incomplete
+    // *
+    // * Returns the branch of the commit.
+    // * @param {string} url
+    // */
+    // private static async getBranch(url: string): Promise<string> {
+    // }
+
+
+    /**
+    * TODO: Incomplete
+    *
+    * Returns all commits in the repository.
+    * @param {string} url The repository's full URL
+    * @param {boolean} isPrivate - boolean
+    */
+    public static async getCommits(url: string, isPrivate: boolean): Promise<ICommitData[]> {
         const branchesOnRepo = await this.getBranches(url);
         let githubCommits: ICommitData[] = [];
         const urlL = url.slice(19);
@@ -137,7 +166,13 @@ export class Github {
         return githubCommits;
     }
 
-    public static async Github_getCommit(url: string, isPrivate: boolean, sha: string): Promise<ICommitData> {
+    /**
+    * Returns a specific commit in the repository.
+    * @param {string} url The repository's full URL
+    * @param {boolean} isPrivate - boolean
+    * @param {string} sha - The commit's full SHA
+    */
+    public static async getCommit(url: string, isPrivate: boolean, sha: string): Promise<ICommitData> {
         const branchesOnRepo = await this.getBranches(url);
         let githubCommit!: ICommitData;
         const urlL = url.slice(19);
