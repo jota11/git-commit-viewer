@@ -16,17 +16,17 @@ export class GlobalCalls {
 
     /**
     * Returns all commits from the repositories specified in the config file.
-    * @returns {ICommitData[]} Array of commits
+    * @returns array of commits
     */
     public static async getCommits(): Promise<ICommitData[]> {
         let commitsArray: ICommitData[] = [];
         for (let i = 0; i < this.repositories.length; i++) {
             switch (this.repositories[i].provider) {
                 case "github":
-                    commitsArray.push(...await Github.getCommits(this.repositories[i].url, this.repositories[i].private));
+                    commitsArray.push(...await Github.Github_getCommits(this.repositories[i].url, this.repositories[i].private));
                     break;
                 case "gitlab":
-                    commitsArray.push(...await Gitlab.getCommits(this.repositories[i].url, this.repositories[i].private));
+                    commitsArray.push(...await Gitlab.Gitlab_getCommits(this.repositories[i].url, this.repositories[i].private));
                     break;
                 default:
                     console.log("Provider not supported.");
@@ -35,11 +35,11 @@ export class GlobalCalls {
         }
         return this.sortArrayChronologically(commitsArray);
     }
-
+    
     /**
     * Returns all commits from a specific repository specified in the config file.
-    * @param {string} slug - The repository's URL slug
-    * @returns {ICommitData[]} array of commits
+    * @param {string} slug
+    * @returns array of commits
     */
     public static async getCommitsFromSpecificRepo(slug: string): Promise<ICommitData[]> {
         let commitsArray: ICommitData[] = [];
@@ -55,10 +55,10 @@ export class GlobalCalls {
         if (doesThisRepoActuallyExists) {
             switch (repository.provider) {
                 case "github":
-                    commitsArray.push(...await Github.getCommits(repository.url, repository.private));
+                    commitsArray.push(...await Github.Github_getCommits(repository.url, repository.private));
                     break;
                 case "gitlab":
-                    commitsArray.push(...await Gitlab.getCommits(repository.url, repository.private));
+                    commitsArray.push(...await Gitlab.Gitlab_getCommits(repository.url, repository.private));
                     break;
                 default:
                     console.log("Provider not supported.");
@@ -70,9 +70,9 @@ export class GlobalCalls {
 
     /**
     * Returns a specific commit.
-    * @param {string} repo The repository's full URL
-    * @param {string} sha The commit's full SHA
-    * @returns {ICommitData} commit
+    * @param {string} repo
+    * @param {string} sha
+    * @returns commit
     */
     public static async getCommit(repo: string, sha: string): Promise<ICommitData> {
         let commitInfo!: ICommitData;
@@ -89,10 +89,10 @@ export class GlobalCalls {
         if (doesThisRepoActuallyExists) {
             switch (repository.provider) {
                 case "github":
-                    commitInfo = await Github.getCommit(repository.url, repository.private, sha);
+                    commitInfo = await Github.Github_getCommit(repository.url, repository.private, sha);
                     break;
                 case "gitlab":
-                    commitInfo = await Gitlab.getCommit(repository.url, repository.private, sha);
+                    commitInfo = await Gitlab.Gitlab_getCommit(repository.url, repository.private, sha);
                     break;
                 default:
                     console.log("Provider not supported.");
