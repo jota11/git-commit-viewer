@@ -35,7 +35,7 @@ export class GlobalCalls {
         }
         return this.sortArrayChronologically(commitsArray);
     }
-
+    
     /**
     * Returns all commits from a specific repository specified in the config file.
     * @param {string} slug - The repository's URL slug

@@ -26,9 +26,9 @@ export interface ICommitData {
     },
     date: string
     title: string
+    branch_name: string
     message: string
     repository_name: string
-    branch_name: string
     hidden: boolean
 }
 
@@ -49,4 +49,10 @@ export interface ILabel {
     iconName?: string
     message: string
     closable?: boolean
+}
+
+export interface IBranch {
+    name: string
+    commits: string[]
+    sha: string
 }
