@@ -23,10 +23,10 @@ export class GlobalCalls {
         for (let i = 0; i < this.repositories.length; i++) {
             switch (this.repositories[i].provider) {
                 case "github":
-                    commitsArray.push(...await Github.getCommits(this.repositories[i].url, this.repositories[i].private));
+                    commitsArray.push(...await Github.getCommits(this.repositories[i].url));
                     break;
                 case "gitlab":
-                    commitsArray.push(...await Gitlab.getCommits(this.repositories[i].url, this.repositories[i].private));
+                    commitsArray.push(...await Gitlab.getCommits(this.repositories[i].url));
                     break;
                 default:
                     console.log("Provider not supported.");
@@ -35,7 +35,7 @@ export class GlobalCalls {
         }
         return this.sortArrayChronologically(commitsArray);
     }
-    
+
     /**
     * Returns all commits from a specific repository specified in the config file.
     * @param {string} slug - The repository's URL slug
@@ -55,10 +55,10 @@ export class GlobalCalls {
         if (doesThisRepoActuallyExists) {
             switch (repository.provider) {
                 case "github":
-                    commitsArray.push(...await Github.getCommits(repository.url, repository.private));
+                    commitsArray.push(...await Github.getCommits(repository.url));
                     break;
                 case "gitlab":
-                    commitsArray.push(...await Gitlab.getCommits(repository.url, repository.private));
+                    commitsArray.push(...await Gitlab.getCommits(repository.url));
                     break;
                 default:
                     console.log("Provider not supported.");
@@ -89,10 +89,10 @@ export class GlobalCalls {
         if (doesThisRepoActuallyExists) {
             switch (repository.provider) {
                 case "github":
-                    commitInfo = await Github.getCommit(repository.url, repository.private, sha);
+                    commitInfo = await Github.getCommit(repository.url, sha);
                     break;
                 case "gitlab":
-                    commitInfo = await Gitlab.getCommit(repository.url, repository.private, sha);
+                    commitInfo = await Gitlab.getCommit(repository.url, sha);
                     break;
                 default:
                     console.log("Provider not supported.");
