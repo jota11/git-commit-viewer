@@ -92,9 +92,8 @@ export class Gitlab {
     /**
     * Returns all commits in the repository.
     * @param {string} url The repository's full URL
-    * @param {boolean} isPrivate - boolean
     */
-    public static async getCommits(url: string, isPrivate: boolean): Promise<ICommitData[]> {
+    public static async getCommits(url: string): Promise<ICommitData[]> {
         let gitlabCommits: ICommitData[] = [];
         const repoNameId = url.slice(19).split("/").join("%2F");
         const urlL = global_APIURLs.gitlab + "projects/" + repoNameId + "/repository/commits?all=1";
@@ -106,7 +105,7 @@ export class Gitlab {
             await Promise.all(commits.map(async (commit: any) => {
                 let avatar = await this.getAvatar(commit.author_email);
                 let branchName = await this.getBranch(urlL.slice(0, -6) + "/" + commit.id, true);
-                let obj: ICommitData = makeCommitData(commit, avatar, branchName)
+                let obj: ICommitData = this.makeCommitData(commit, avatar, branchName)
 
                 gitlabCommits.push(obj);
             }));
@@ -119,10 +118,9 @@ export class Gitlab {
     /**
     * Returns a specific commit in the repository.
     * @param {string} url The repository's full URL
-    * @param {boolean} isPrivate - boolean
     * @param {string} sha - The commit's full SHA
     */
-    public static async getCommit(url: string, isPrivate: boolean, sha: string): Promise<ICommitData> {
+    public static async getCommit(url: string, sha: string): Promise<ICommitData> {
         let gitlabCommit!: ICommitData;
         const repoNameId = url.slice(19).split("/").join("%2F");
         const urlL = global_APIURLs.gitlab + "projects/" + repoNameId + "/repository/commits/" + sha;
@@ -133,7 +131,7 @@ export class Gitlab {
         .then(async commit => {
             let avatar = await this.getAvatar(commit.author_email);
             let branchName = await this.getBranch(urlL, true);
-            let obj: ICommitData = makeCommitData(commit, avatar, branchName)
+            let obj: ICommitData = this.makeCommitData(commit, avatar, branchName)
 
             gitlabCommit = obj;
         })

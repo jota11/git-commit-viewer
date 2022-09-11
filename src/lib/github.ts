@@ -1,5 +1,5 @@
 import { global_APIURLs, commitConfigs } from "config";
-import { ICommitData } from "types";
+import { IBranch, ICommitData } from "types";
 
 export class Github {
     // Remove?
@@ -11,7 +11,7 @@ export class Github {
         ["Accept", "application/vnd.github+json"],
         ["Authorization", `token ${process.env.APIKEY_GITHUB}`]
     ]);
-    
+
     private static hideInfo(message: string): boolean {
         let hide = false;
         commitConfigs.prefix_hideCommit.map((prefix) => {
@@ -27,7 +27,7 @@ export class Github {
     *
     * Returns a repo's branches, and the commits on those branches.
     * Note that branches share identical commits. They are non-unique.
-    * 
+    *
     * @param {string} url
     */
 
@@ -40,6 +40,7 @@ export class Github {
         .then(res => { if (res.status == 200) return res.json() })
         .then(async data => {
             await Promise.all(data.map(async (data: any) => {
+                //@ts-ignore
                 let branch: IBranch = {};
                 branch.name = data.name;
                 branch.sha = data.commit.sha;
@@ -57,7 +58,7 @@ export class Github {
         //             if(branch != otherBranch) {
         //                 if(otherBranch.commits.indexOf(sha) != -1) {
         //                     otherBranch.commits.splice(otherBranch.commits.indexOf(sha), 1)
-        //                 }                        
+        //                 }
         //             }
         //         })
         //     })
@@ -71,7 +72,7 @@ export class Github {
         branches.forEach(branch => {
             for(var x=0; x<branch.commits.length;x++) {
                 if(branch.commits[x] == sha) {
-                    returnValue += branch.name; 
+                    returnValue += branch.name;
                 }
             }
         });
@@ -82,12 +83,12 @@ export class Github {
     }
 
 
-    public static async traverseCommitTree(urlL:string, name:string, accumulator: string[], page: number, branchSHA: string ): Promise<string[]> {
+    public static async traverseCommitTree(urlL: string, name: string, accumulator: string[], page: number, branchSHA: string ): Promise<string[]> {
         await fetch(global_APIURLs.github + urlL + "/commits?per_page=100&page=" + page + "&sha=" + name, {
             headers: new Headers(this.headers_githubRequestAuth)
         })
         .then(res => { if (res.status == 200) return res.json() })
-        .then(async data => {  
+        .then(async data => {
             data.map((data: any) => {
                 accumulator.push(data.sha);
             });
@@ -99,7 +100,7 @@ export class Github {
         })
 
         return accumulator;
-    }   
+    }
 
 
     // would like to move to TS class eventually.
@@ -147,9 +148,8 @@ export class Github {
     *
     * Returns all commits in the repository.
     * @param {string} url The repository's full URL
-    * @param {boolean} isPrivate - boolean
     */
-    public static async getCommits(url: string, isPrivate: boolean): Promise<ICommitData[]> {
+    public static async getCommits(url: string): Promise<ICommitData[]> {
         const branchesOnRepo = await this.getBranches(url);
         let githubCommits: ICommitData[] = [];
         const urlL = url.slice(19);
@@ -169,10 +169,9 @@ export class Github {
     /**
     * Returns a specific commit in the repository.
     * @param {string} url The repository's full URL
-    * @param {boolean} isPrivate - boolean
     * @param {string} sha - The commit's full SHA
     */
-    public static async getCommit(url: string, isPrivate: boolean, sha: string): Promise<ICommitData> {
+    public static async getCommit(url: string, sha: string): Promise<ICommitData> {
         const branchesOnRepo = await this.getBranches(url);
         let githubCommit!: ICommitData;
         const urlL = url.slice(19);
