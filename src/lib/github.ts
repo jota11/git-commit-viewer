@@ -7,10 +7,10 @@ export class Github {
     //     ["Accept", "application/vnd.github+json"],
     // ];
 
-    private static headers_githubRequestAuth = [
+    private static headers_githubRequestAuth = new Headers([
         ["Accept", "application/vnd.github+json"],
         ["Authorization", `token ${process.env.APIKEY_GITHUB}`]
-    ];
+    ]);
     
     private static hideInfo(message: string): boolean {
         let hide = false;
@@ -35,7 +35,7 @@ export class Github {
         const urlL = url.slice(19);
         let branches: IBranch[] = [];
         await fetch(global_APIURLs.github + urlL + "/branches", {
-            headers: new Headers(this.headers_githubRequestAuth)
+            headers: this.headers_githubRequestAuth
         })
         .then(res => { if (res.status == 200) return res.json() })
         .then(async data => {
@@ -66,7 +66,7 @@ export class Github {
         return branches;
     }
 
-    private static determineBranch(sha: string, branches: string[]): string {
+    private static determineBranch(sha: string, branches: IBranch[]): string {
         var returnValue = "";
         branches.forEach(branch => {
             for(var x=0; x<branch.commits.length;x++) {
@@ -82,7 +82,7 @@ export class Github {
     }
 
 
-    public static async traverseCommitTree(urlL:string, name:string, accumulator: string[], page: int, branchSHA: string ): Promise<string[]> {
+    public static async traverseCommitTree(urlL:string, name:string, accumulator: string[], page: number, branchSHA: string ): Promise<string[]> {
         await fetch(global_APIURLs.github + urlL + "/commits?per_page=100&page=" + page + "&sha=" + name, {
             headers: new Headers(this.headers_githubRequestAuth)
         })
@@ -103,7 +103,7 @@ export class Github {
 
 
     // would like to move to TS class eventually.
-    private static makeCommitData(data: any, branches: string[]): ICommitData {
+    private static makeCommitData(data: any, branches: IBranch[]): ICommitData {
         let obj: ICommitData;
         obj = {
             sha: data.sha,
@@ -124,7 +124,7 @@ export class Github {
             obj.sha = commitConfigs.hiddenCommit_sha;
             obj.title = commitConfigs.hiddenCommit_message;
             obj.message = commitConfigs.hiddenCommit_message;
-            obj.branch_name = commitConfigs.hiddenCommit_branch;
+            obj.branch_name = commitConfigs.hiddenCommit_branchName;
             obj.repository_name = commitConfigs.hiddenCommit_repositoryName;
             obj.hidden = true;
         }

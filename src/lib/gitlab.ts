@@ -20,7 +20,7 @@ export class Gitlab {
         return hide;
     }
 
-     private static makeCommitData(commit: any, branchName: string): ICommitData {
+     private static makeCommitData(commit: any, avatar:string, branchName: string): ICommitData {
         let obj: ICommitData;
         obj = {
             sha: commit.id,
@@ -37,7 +37,7 @@ export class Gitlab {
             hidden: false
         }
 
-        if (this.hideInfo(data.commit.message)) {
+        if (this.hideInfo(commit.message)) {
             obj.sha = commitConfigs.hiddenCommit_sha,
             obj.title = commitConfigs.hiddenCommit_message,
             obj.message = commitConfigs.hiddenCommit_message,
@@ -106,7 +106,7 @@ export class Gitlab {
             await Promise.all(commits.map(async (commit: any) => {
                 let avatar = await this.getAvatar(commit.author_email);
                 let branchName = await this.getBranch(urlL.slice(0, -6) + "/" + commit.id, true);
-                let obj: ICommitData = makeCommitData(commit, branchName)
+                let obj: ICommitData = makeCommitData(commit, avatar, branchName)
 
                 gitlabCommits.push(obj);
             }));
@@ -133,7 +133,7 @@ export class Gitlab {
         .then(async commit => {
             let avatar = await this.getAvatar(commit.author_email);
             let branchName = await this.getBranch(urlL, true);
-            let obj: ICommitData = makeCommitData(commit, branchName)
+            let obj: ICommitData = makeCommitData(commit, avatar, branchName)
 
             gitlabCommit = obj;
         })
