@@ -100,7 +100,10 @@ export class Gitlab {
         await fetch(urlL, {
             headers: this.headers_gitlabRequestAuth
         })
-        .then(res => { console.log(res.status); if (res.status == 200) return res.json() })
+        .then(res => {
+            console.log(res.status);
+            if (res.status == 200) return res.json()
+        })
         .then(async commits => {
             await Promise.all(commits.map(async (commit: any) => {
                 let avatar = await this.getAvatar(commit.author_email);

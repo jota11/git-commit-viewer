@@ -39,12 +39,12 @@ const CommitPreview: React.FC<ICommitDataComponent> = ({ sha, author, date, repo
                 <section className={styles.commitInfo}>
                     <h2 className={styles.repoBranchSha}>
                         <Link href={repositoryLink}>
-                            <a>{repositoryName}</a>
+                            {repositoryName}
                         </Link>
                         /{branch}
                         <span className={styles.sha}>
                             <Link href={"/r/" + repositoryName + "/" + sha}>
-                                <a>#{sha.slice(0, 7)}</a>
+                                #{sha.slice(0, 7)}
                             </Link>
                         </span>
                     </h2>

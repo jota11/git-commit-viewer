@@ -17,9 +17,7 @@ const Footer: React.FC = () => {
         return (
             <footer className="center">
                 <Link href="/">
-                    <a>
-                        <h6 style={{ color: configSetColor }}>{globalConfigs.name} Commits and some more text</h6>
-                    </a>
+                    <h6 style={{ color: configSetColor }}>{globalConfigs.name} Commits and some more text</h6>
                 </Link>
             </footer>
         )
@@ -27,9 +25,7 @@ const Footer: React.FC = () => {
         return (
             <footer className="center">
                 <Link href="/">
-                    <a>
-                        <Image src={globalConfigs.logoSquared} width="500px" height="100%" alt={globalConfigs.name + "'s logo"} />
-                    </a>
+                    <Image src={globalConfigs.logoSquared} width="500px" height="100%" alt={globalConfigs.name + "'s logo"} />
                 </Link>
             </footer>
         )

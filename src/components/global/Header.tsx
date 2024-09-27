@@ -10,9 +10,7 @@ const Header: React.FC = () => {
             <header className="center">
                 <section>
                     <Link href="/">
-                        <a>
-                            <h1 style={{ color: configSetColor }}>{globalConfigs.name} Commits</h1>
-                        </a>
+                        <h1 style={{ color: configSetColor }}>{globalConfigs.name} Commits</h1>
                     </Link>
                 </section>
             </header>
@@ -22,9 +20,7 @@ const Header: React.FC = () => {
             <header className="center">
                 <section>
                     <Link href="/">
-                        <a>
-                            <Image src={globalConfigs.logo} width="500px" height="100%" alt={globalConfigs.name + "'s logo"} />
-                        </a>
+                        <Image src={globalConfigs.logo} width="500px" height="100%" alt={globalConfigs.name + "'s logo"} />
                     </Link>
                 </section>
             </header>
