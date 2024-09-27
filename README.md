@@ -19,4 +19,4 @@ Currently only GitHub and GitLab are supported, but I plan on adding support for
 
 ## TODO?
 
-There is a bunch of TODOs in this, like writing a proper documentation explaining how things work and cleaning up the mess. Currently they are scattered across the files as I write them, so I will have to write them elsewhere later. And probably write a better README too.
+There is a bunch of TODOs in this, like writing a proper documentation explaining how things work and cleaning up the mess. Currently they are scattered across the files as I write them, so I will have to write them elsewhere later. And probably write a better README too. Ok.
