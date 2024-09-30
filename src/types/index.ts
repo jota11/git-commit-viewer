@@ -9,6 +9,7 @@ export interface ICommitDataComponent {
         avatar: string
         name: string
         handle: string
+        accountType: string
     }
     date: string
     repositoryName: string
@@ -23,6 +24,7 @@ export interface ICommitData {
         avatar: string
         name: string
         handle: string
+        accountType: string
     },
     date: string
     title: string
@@ -42,6 +44,11 @@ export interface IStatsComponent {
     repoName: string
     repoTotalCommits: number
     repoTodayCommits: number
+}
+
+export interface ITotalStatsComponent {
+    totalStatsCommits: number
+    totalStatsTodayCommits: number
 }
 
 export interface ILabel {

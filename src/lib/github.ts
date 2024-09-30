@@ -111,7 +111,8 @@ export class Github {
             author: {
                 avatar: data.author.avatar_url,
                 name: data.commit.author.name,
-                handle: data.author.login
+                handle: data.author.login,
+                accountType: data.author.type
             },
             date: data.commit.author.date,
             title: data.commit.message,
@@ -156,13 +157,18 @@ export class Github {
         await fetch(global_APIURLs.github + urlL + "/commits", {
             headers: new Headers(this.headers_githubRequestAuth)
         })
-        .then(res => { if (res.status == 200) return res.json() })
+        .then(res => {
+            if (res.status == 200) {
+                console.log(res.status + " - [github] successfully got commits.");
+                return res.json();
+            }
+        })
         .then(commits => {
             commits.map((commits: any) => {
                 let obj = this.makeCommitData(commits, branchesOnRepo);
                 githubCommits.push(obj);
             });
-        }).catch(error => console.error("Error getting Github commits! " + error));
+        }).catch(error => console.error("[github] - error getting commits! " + error));
         return githubCommits;
     }
 
@@ -178,10 +184,15 @@ export class Github {
         await fetch(global_APIURLs.github + urlL + "/commits/" + sha, {
             headers: new Headers(this.headers_githubRequestAuth)
         })
-        .then(res => { if (res.status == 200) return res.json() })
+        .then(res => {
+            if (res.status == 200) {
+                console.log(res.status + " - [github] successfully got commit.");
+                return res.json();
+            }
+        })
         .then(commit => {
             githubCommit = this.makeCommitData(commit, branchesOnRepo);
-        }).catch(error => console.error("Error getting Github commit! " + error));
+        }).catch(error => console.error("[github] - error getting commit! " + error));
 
         return githubCommit;
     }

@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+/** @type {import("next").NextConfig} */
 
 const path = require("path");
 
@@ -6,9 +6,15 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [
-        "avatars.githubusercontent.com",
-        "secure.gravatar.com"
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com"
+      },
+      {
+        protocol: "https",
+        hostname: "secure.gravatar.com"
+      }
     ]
   },
   async redirects() {

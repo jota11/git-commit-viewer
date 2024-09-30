@@ -3,6 +3,7 @@
 export const globalConfigs = {
     name: "[INSERT TEXT HERE]",
     nameColor: "#77777799",
+    themeColor: "#111111",
     logo: "",
     dark_logo: "",
     light_logo: "",
@@ -25,7 +26,8 @@ export const globalConfigs = {
 // "hiddenCommit_*": The default values that will appear behind the
 //                   blur if you choose to hide/obfuscate a commit.
 export const commitConfigs = {
-    msg_botMadeCommit: "This commit was made by an automated [bot] account",
+    msg_botMadeCommit: "This commit was made by an automated account",
+    commitShaSize: 7,
     showObfuscatedCommits: true,
     prefix_hideCommit: [
         "[obfuscate]",
@@ -43,17 +45,18 @@ export const commitConfigs = {
 };
 
 // Set all the repositories you wish to be tracked here, in that exact format.
+// Providers supported: "github", "gitlab"
 export const global_Repositories = [
     {
         url: "https://github.com/jota11/testing-repository",
         provider: "github",
         private: false
     },
-    // {
-    //     url: "https://github.com/jota11/testing-repository-2",
-    //     provider: "github",
-    //     private: true
-    // },
+    {
+        url: "https://github.com/jota11/testing-repository-2",
+        provider: "github",
+        private: true
+    },
     {
         url: "https://gitlab.com/jota11/test-gitlab-repository",
         provider: "gitlab",

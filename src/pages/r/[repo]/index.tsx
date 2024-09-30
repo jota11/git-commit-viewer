@@ -16,7 +16,6 @@ const RepoIndex: NextPage<Props> = ({ repoCommits }: Props) => {
     const { repo } = router.query;
     const repositoryName = repo!.toString();
 
-    // ?
     let commitsTodayNum = 0;
     for (let i = 0; i < repoCommits.length; i++) {
         const dateToday = new Date().toString().slice(0, 15);
@@ -24,10 +23,12 @@ const RepoIndex: NextPage<Props> = ({ repoCommits }: Props) => {
         if (dateToday == dateTodayCommits) commitsTodayNum++;
     }
 
+    const tabTitle = `${globalConfigs.name} Commits — ${repo}`;
+
     return (
         <section id="main">
             <Head>
-                <title>{globalConfigs.name} Commits — {repo}</title>
+                <title>{tabTitle}</title>
             </Head>
             <RepoStats
                 repoName={repositoryName}
@@ -42,6 +43,7 @@ const RepoIndex: NextPage<Props> = ({ repoCommits }: Props) => {
                         avatar: data.author.avatar,
                         name: data.author.name,
                         handle: data.author.handle,
+                        accountType: data.author.accountType
                     }}
                     date={data.date}
                     repositoryName={data.repository_name}

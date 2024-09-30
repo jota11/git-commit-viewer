@@ -20,14 +20,15 @@ export class Gitlab {
         return hide;
     }
 
-     private static makeCommitData(commit: any, avatar:string, branchName: string): ICommitData {
+     private static makeCommitData(commit: any, avatar: string, branchName: string): ICommitData {
         let obj: ICommitData;
         obj = {
             sha: commit.id,
             author: {
                 avatar: avatar,
                 name: commit.author_name,
-                handle: commit.author_name
+                handle: commit.author_name,
+                accountType: ""
             },
             date: commit.created_at,
             title: commit.title,
@@ -46,7 +47,7 @@ export class Gitlab {
             obj.hidden = true
         }
 
-        return obj
+        return obj;
     }
 
     /**
@@ -59,7 +60,7 @@ export class Gitlab {
         await fetch(global_APIURLs.gitlab + "/avatar?email=" + email + "&size=128")
             .then(res => { if (res.status == 200) return res.json() })
             .then(data => avatarUrl = data.avatar_url)
-            .catch(error => console.error("Avatar error! " + error));
+            .catch(error => console.error("[gitlab] Error getting author avatar! " + error));
         return avatarUrl;
     }
 
@@ -77,14 +78,14 @@ export class Gitlab {
             })
             .then(res => { if (res.status == 200) return res.json() })
             .then(data => branch = data[0].name)
-            .catch(error => console.error("Error getting branch private! " + error));
+            .catch(error => console.error("[gitlab] Error getting private branch! " + error));
         } else {
             await fetch(url + "/refs?type=branch", {
-                headers: this.headers_gitlabRequest
+                headers: this.headers_gitlabRequestAuth
             })
             .then(res => { if (res.status == 200) return res.json() })
             .then(data => branch = data[0].name)
-            .catch(error => console.error("Error getting branch! " + error));
+            .catch(error => console.error("[gitlab] Error getting public branch! " + error));
         }
         return branch;
     }
@@ -101,8 +102,10 @@ export class Gitlab {
             headers: this.headers_gitlabRequestAuth
         })
         .then(res => {
-            console.log(res.status);
-            if (res.status == 200) return res.json()
+            if (res.status == 200) {
+                console.log(res.status + " - [gitlab] successfully got commits.");
+                return res.json();
+            }
         })
         .then(async commits => {
             await Promise.all(commits.map(async (commit: any) => {
@@ -113,7 +116,7 @@ export class Gitlab {
                 gitlabCommits.push(obj);
             }));
         })
-        .catch(error => console.error("Error getting Gitlab commits! " + error));
+        .catch(error => console.error("[gitlab] error getting commits! " + error));
 
         return gitlabCommits;
     }
@@ -130,7 +133,12 @@ export class Gitlab {
         await fetch(urlL, {
             headers: this.headers_gitlabRequestAuth
         })
-        .then(res => { if (res.status == 200) return res.json() })
+        .then(res => {
+            if (res.status == 200) {
+                console.log(res.status + " - Successfully got GitLab commit.");
+                return res.json();
+            }
+        })
         .then(async commit => {
             let avatar = await this.getAvatar(commit.author_email);
             let branchName = await this.getBranch(urlL, true);

@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
         return (
             <footer className="center">
                 <Link href="/">
-                    <Image src={globalConfigs.logoSquared} width="500px" height="100%" alt={globalConfigs.name + "'s logo"} />
+                    <Image src={globalConfigs.logoSquared} width={500} height={500} alt={globalConfigs.name + "'s logo"} />
                 </Link>
             </footer>
         )

@@ -3,7 +3,7 @@
 .commit {
     margin: 0 auto;
     min-width: 35%;
-    width: 50%;
+    width: 55%;
     display: flex;
     flex-direction: row;
     position: relative;
@@ -13,14 +13,15 @@
 
     .authorInfo {
         margin: 3vh;
-        width: 80px;
+        width: $defaultCommitterAvatarSizePreview;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
 
         img {
-            width: inherit;
+            width: $defaultCommitterAvatarSizePreview;
+            height: $defaultCommitterAvatarSizePreview;
             border-radius: 1vh;
         }
 
@@ -50,7 +51,8 @@
             }
         }
 
-        .message {
+        // .message {
+        span {
             margin: 0;
             font-size: 0.85em;
             line-height: 125%;
@@ -82,6 +84,12 @@
     .authorInfo {
         width: 110px;
 
+        img {
+            width: $defaultCommitterAvatarSizeFull;
+            height: $defaultCommitterAvatarSizeFull;
+            border-radius: 1vh;
+        }
+
         .handle {
             margin: 1vh 0;
             font-size: 1em;
@@ -108,6 +116,6 @@
 
 @include media-breakpoint-down(lg) {
     .commit, .commitFull {
-        width: 100%;
+        width: 80%;
     }
 }

@@ -20,7 +20,7 @@ const CommitFull: React.FC<ICommitDataComponent> = ({ sha, author, date, reposit
     const shouldApplyBlur = messageBlur ? " blur" : "";
 
     const botCheck = () => {
-        if (GlobalCalls.isUserBot(author.handle)) {
+        if (GlobalCalls.isUserBot(author.accountType)) {
             return (
                 <i className="mdi mdi-robot" title={commitConfigs.msg_botMadeCommit}></i>
             )
@@ -33,7 +33,7 @@ const CommitFull: React.FC<ICommitDataComponent> = ({ sha, author, date, reposit
         return (
             <div id={styles.commitFull} className={shouldApplyBlur}>
                 <section className={styles.authorInfo}>
-                    <Image src={author.avatar} width={110} height={110} layout="fixed" alt={author.handle + "'s avatar"} />
+                    <Image src={author.avatar} width={110} height={110} priority={true} alt={author.handle + "'s avatar"} />
                     <span className={styles.handle}>{author.handle} {botCheck()}</span>
                     <time className={styles.date} dateTime={date} title={dateConverted.slice(0, 33)}>{dateConverted.slice(4, 15)}</time>
                 </section>
@@ -45,19 +45,17 @@ const CommitFull: React.FC<ICommitDataComponent> = ({ sha, author, date, reposit
                         /{branch}
                         <span className={styles.sha}>
                             <Link href={"/r/" + repositoryName + "/" + sha}>
-                                #{sha.slice(0, 7)}
+                                #{sha.slice(0, commitConfigs.commitShaSize)}
                             </Link>
                         </span>
                     </h2>
-                    <span className={styles.message}>
-                        <Markdown options={{
-                            // forceBlock: true,
-                            // forceWrapper: false,
-                            // wrapper: "span",
-                        }}>
-                            {message}
-                        </Markdown>
-                    </span>
+                    <Markdown options={{
+                        forceBlock: true,
+                        forceWrapper: true,
+                        wrapper: "span"
+                    }}>
+                        {message}
+                    </Markdown>
                 </section>
             </div>
         )

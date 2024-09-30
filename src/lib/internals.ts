@@ -3,7 +3,6 @@ import { Github } from "@lib/github";
 import { Gitlab } from "@lib/gitlab";
 import { ICommitData, IConfigRepo } from "types";
 
-// This class contains all the calls available to be used globally.
 export class GlobalCalls {
     private static repositories = global_Repositories.map((repo) => {
         return repo;
@@ -76,9 +75,9 @@ export class GlobalCalls {
     */
     public static async getCommit(repo: string, sha: string): Promise<ICommitData> {
         let commitInfo!: ICommitData;
-
         let repository!: IConfigRepo;
         let doesThisRepoActuallyExists = false;
+
         for (let i = 0; i < this.repositories.length; i++) {
             if (repo == this.repositories[i].url.split("/")[4] && sha.length == 40) {
                 repository = this.repositories[i];
@@ -103,14 +102,12 @@ export class GlobalCalls {
     }
 
     /**
-    * TODO: Is this really the better way?
-    *
     * Checks if the commit was made by an automated [bot] account.
-    * @param {string} handle
+    * @param {string} accountType
     * @returns boolean
     */
-    public static isUserBot(handle: string): boolean {
-        if (handle.endsWith("[bot]")) {
+    public static isUserBot(accountType: string): boolean {
+        if (accountType == "bot") {
             return true;
         } else {
             return false;

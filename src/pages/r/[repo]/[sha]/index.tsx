@@ -11,11 +11,11 @@ type Props = {
 
 const RepoCommit: NextPage<Props> = ({ commit }: Props) => {
     if (commit != null) {
+        const tabTitle = `${globalConfigs.name} Commits — ${commit.repository_name} — #${commit.sha.slice(0, 7)}`
         return (
             <section id="main">
                 <Head>
-                    {/* <title>{globalConfigs.name} Commits — {commit.repository_name} — #{commit.sha.slice(0, 7)}</title> */}
-                    <title>{globalConfigs.name} Commits</title>
+                    <title>{tabTitle}</title>
                 </Head>
                 <CommitFull
                     sha={commit.sha}
@@ -23,6 +23,7 @@ const RepoCommit: NextPage<Props> = ({ commit }: Props) => {
                         avatar: commit.author.avatar,
                         name: commit.author.name,
                         handle: commit.author.handle,
+                        accountType: commit.author.accountType,
                     }}
                     date={commit.date}
                     repositoryName={commit.repository_name}
@@ -36,7 +37,7 @@ const RepoCommit: NextPage<Props> = ({ commit }: Props) => {
         return (
             <section id="main">
                 <Head>
-                    <title>testing</title>
+                    <title>Commit not found</title>
                 </Head>
             </section>
         )

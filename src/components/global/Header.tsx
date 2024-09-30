@@ -20,7 +20,7 @@ const Header: React.FC = () => {
             <header className="center">
                 <section>
                     <Link href="/">
-                        <Image src={globalConfigs.logo} width="500px" height="100%" alt={globalConfigs.name + "'s logo"} />
+                        <Image src={globalConfigs.logo} width={500} height={100} alt={globalConfigs.name + " logo"} />
                     </Link>
                 </section>
             </header>
