@@ -58,6 +58,11 @@ export const global_Repositories = [
         private: true
     },
     {
+        url: "https://github.com/jota11/git-commit-viewer",
+        provider: "github",
+        private: false
+    },
+    {
         url: "https://gitlab.com/jota11/test-gitlab-repository",
         provider: "gitlab",
         private: false
