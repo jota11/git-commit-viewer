@@ -9,19 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "markdown-to-jsx": "^7.5.0",
-    "next": "^14.2.13",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "markdown-to-jsx": "^7.7.17",
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@types/node": "^18.19.54",
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
-    "bootstrap": "^5.3.3",
-    "eslint": "^8.20.0",
-    "eslint-config-next": "^12.2.3",
-    "sass": "^1.79.4",
-    "typescript": "^4.7.4"
+    "@types/node": "^18.19.130",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "bootstrap": "^5.3.8",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^12.3.7",
+    "sass": "^1.101.0",
+    "typescript": "^4.9.5"
   }
 }
